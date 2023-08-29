@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/plugins/ephemeral_gully" >
+        <file>images/logo.svg</file>
+	<file>images/outputs.svg</file>
+    </qresource>
+</RCC>

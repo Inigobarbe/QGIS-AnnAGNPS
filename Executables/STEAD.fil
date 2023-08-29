@@ -1,0 +1,85 @@
+VERSION   5.51
+COMMENT********* STEAD INPUT CONTROL FILE ******
+COMMENT
+COMMENT-- path & filename of input data
+INPUT     1    AnnAGNPS_TBL_Gaging_Station_Data_Hyd.txt
+COMMENT
+COMMENT-- path & filename of output; if no extension is supplied, ".csv" will be added to filename
+OUTPUT    F    AnnAGNPS_Gaging_Station_Data_Hyd_csv_Summary.csv
+COMMENT
+COMMENT-- output format; blank (defaults to csv); "csv"; or any other three character combination for fixed format
+FORMAT    csv
+COMMENT
+COMMENT-- bed & bank average annual load
+COMMENT   Avg Ann LD     1=SI 0=Eng
+COMMENT
+COMMENT-- average annual total streamflow
+COMMENT   Avg Ann SF     1=SI 0=Eng    BFC%
+COMMENT
+COMMENT-- extraction criteria
+COMMENT   mm/dd/yyyy     mm/dd/yyyy     reach_ID  rprt_type rch_loc
+DATA
+ENDDATA
+
+******************************************************************************************************
+No records below an "ENDDATA" record are read.
+
+Please refer to the documentation for a complete explanation of this file.
+
+Columns 1-10 are reserved for keywords only, as described below.
+
+In brief, this file is optional. STEAD can be run without this file and
+default values will be supplied. 
+
+All available keywords except 'VERSION' and 'DATA' are optional. The generated output depends on 
+default values and/or user supplied values within this file. Available 
+keywords are: VERSION, COMMENT, INPUT, OUTPUT, FORMAT, LOAD, CALIBRATE, DATA, and ENDDATA.
+
+VERSION - Version number for this control file. Must match the version of AnnAGNPS used to produce the gaging station file.
+          Options: "5.41" which matches AnnAGNPS release version “v5.41.a.001” 
+          Required: This keyword must be present as the first record in the .fil file with one option as listed above.
+
+COMMENT - indicates to the program that the "COMMENT" line is not to be processed as data
+
+INPUT --- path & filename of input data. 
+          Default: "AnnAGNPS_EV_Gaging_Station_Data.txt" (event-based) or "AnnAGNPS_TBL_Gaging_Station_Data.txt" (hydrograph-based)
+          Options: blank or path/filename to input file beginning in column 16
+          Required: file descriptor in column 11:
+             "0" (event-based) or 
+             "1" (hydrograph-based) 
+
+OUTPUT -- path & filename of output beginning in column 16; if no extension is supplied, ".csv" will be added to filename
+          Default: "AnnAGNPS_EV_Gaging_Station_Data_Summary.csv" (event-based) or "AnnAGNPS_TBL_Gaging_Station_Data_Summary.csv" (hydrograph-based)
+          Options: blank or path/filename to output file
+          Required: output file descriptor in column 11:
+             "T" (multiple output files - filemnames are automatically generated) or 
+             "F" (single output file - uses keyword "OUTPUT" filename or default)
+          Note: This "OUTPUT" parameter specifies the path/filename only; use "FORMAT" to specify the contents
+
+FORMAT -- output format; comma separated values (csv) or fixed format.
+          Default: csv file format
+          Options: blank (defaults to csv); "csv"; or any other three character combination for fixed format
+          Note: This parameter specifies the format of the output regardless of the path/filename
+
+LOAD ---- bed & bank average annual load; if this keyword is used, the units are required
+          Default: 0.0
+          Options: >= 0.0 load value
+          Required: units "0" (English - tons/yr) or "1" (SI - Mg/yr)
+
+CALIBRATE average annual total streamflow; if this keyword is used, the units are required
+          Default: AnnAGNPS calculated average annual total direct runoff
+          Options: >= AnnAGNPS calculated average annual total direct runoff
+          Required: units "0" (English - in/yr) or "1" (SI - mm/yr)
+
+DATA ---- extraction criteria;
+          Required: This keyword must be present after all other keywords but before an ENDDATA. 
+          Default: watershed outlet, all dates, all tables (daily, monthly, & yearly)
+          Options:
+                           Column  #Char
+            Beginning date   11     10   "mm/dd/yyyy" - Valid date in data before ending date
+            Ending date      26     10   "mm/dd/yyyy" - Valid date in data after beginning date
+            Reach ID         41     10   "Outlet", or any reach contained in data
+            Report type      51     10   "A"-all, "M"-month, "D"-day, "Y"-year
+            Reach location   61     10   "U"-up, "D"-down"
+          
+ENDDATA -- Last keyword of the input file.
